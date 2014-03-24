@@ -45,7 +45,7 @@ class Person(TimeStampedModel):
 
     # metadata
     gender = models.CharField(max_length=10, blank=True, choices=GENDERS)
-
+    party = models.CharField(max_length=10, blank=True, choices=PARTIES)
     bio = models.TextField(blank=True)
 
     objects = PersonManager()
@@ -85,7 +85,7 @@ class Person(TimeStampedModel):
         """
         if self.display:
             parts = dict((f, getattr(self, f)) for f in self.NAME_FIELDS)
-            return self.display.format(parts)
+            return self.display.format(**parts)
 
         return self.name
 
