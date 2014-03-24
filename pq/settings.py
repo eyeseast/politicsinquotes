@@ -1,5 +1,5 @@
 """
-Django settings for quotes project.
+Django settings for pq project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -47,9 +47,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'quotes.urls'
+ROOT_URLCONF = 'pq.urls'
 
-WSGI_APPLICATION = 'quotes.wsgi.application'
+WSGI_APPLICATION = 'pq.wsgi.application'
 
 
 # Database
