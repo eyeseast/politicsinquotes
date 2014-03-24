@@ -1,10 +1,12 @@
 Django==1.6.2
 Fabric==1.8.3
 -e git+https://github.com/tumblr/pytumblr.git@59ae7829bec841738836a62056e53b54d7ae2b93#egg=PyTumblr-master
+PyYAML==3.10
 django-model-utils==2.0.3
 ecdsa==0.11
 httplib2==0.8
 httpretty==0.8.0
+nameparser==0.2.8
 oauth2==1.5.211
 paramiko==1.12.3
 pycrypto==2.6.1

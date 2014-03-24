@@ -30,6 +30,7 @@ class Person(TimeStampedModel):
     middle = models.CharField('Middle name', max_length=100, blank=True)
     last = models.CharField('Last name', max_length=100)
     suffix = models.CharField('Suffix', max_length=10, blank=True)
+    nickname = models.CharField('Nickname', max_length=100, blank=True)
 
     slug = models.SlugField(unique=True)
 
@@ -81,10 +82,10 @@ class Person(TimeStampedModel):
 
     def get_display_name(self):
         """
-        Either name or interpolated display.
+        Either name or interpolated display. Allows nickname too.
         """
         if self.display:
-            parts = dict((f, getattr(self, f)) for f in self.NAME_FIELDS)
+            parts = dict((f, getattr(self, f)) for f in self.NAME_FIELDS + ('nickname',))
             return self.display.format(**parts)
 
         return self.name
