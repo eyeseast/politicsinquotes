@@ -44,6 +44,7 @@ INSTALLED_APPS = (
 
     # core
     'pq.apps.people',
+    'pq.apps.quotes',
 )
 
 MIDDLEWARE_CLASSES = (
