@@ -1,10 +1,14 @@
 import os
 
+import dj_database_url
 from fabric.api import *
 
 # names
-env.db_name = "quotes"
+env.default_db_name = "quotes"
 env.project_name = "pq"
+
+# one db configuration everywhere from DATABASE_URL
+env.db = dj_database_url.config(default='postgres://localhost/%s' % env.default_db_name)
 
 # paths
 env.base = os.path.realpath(os.path.dirname(__file__)) # where this fabfile lives
@@ -41,17 +45,18 @@ def freeze():
 
 
 # Database management
+# todo: add other db params from DATABASE_URL
 
 def drop_database():
     "Drop database. Don't do this by accident."
     with settings(warn_only=True):
-        local('dropdb %(db_name)s' % env)
+        local('dropdb %(NAME)s' % env.db)
 
 
 def create_database():
     "Create our local database."
-    local('createdb %(db_name)s' % env)
-    local('psql -c "CREATE EXTENSION hstore" -d %(db_name)s' % env)
+    local('createdb %(NAME)s' % env.db)
+    local('psql -c "CREATE EXTENSION hstore" -d %(NAME)s' % env.db)
 
 
 def reset():
