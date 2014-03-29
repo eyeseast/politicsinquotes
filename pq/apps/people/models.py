@@ -19,7 +19,7 @@ class Person(TimeStampedModel):
         ('male', 'Male'),
     )
 
-    PARTIES = Choices(PARTIES)
+    PARTIES = Choices(*PARTIES)
 
     NAME_FIELDS = ('first', 'middle', 'last', 'suffix')
 
@@ -53,6 +53,7 @@ class Person(TimeStampedModel):
 
     class Meta:
         ordering = ('last', 'first')
+        verbose_name_plural = "people"
 
     def __unicode__(self):
         return self.name
@@ -75,9 +76,9 @@ class Person(TimeStampedModel):
     name = property(_get_name, _set_name)
 
     def _clean_name_fields(self):
-        "Strip whitespace from name fields + display"
-        for part in self.NAME_FIELDS + ('display',):
-            field = getattr(self, part)
+        "Strip whitespace from name fields + display + nickname"
+        for part in self.NAME_FIELDS + ('display', 'nickname'):
+            field = getattr(self, part) or u""
             setattr(self, part, field.strip())
 
     def get_display_name(self):

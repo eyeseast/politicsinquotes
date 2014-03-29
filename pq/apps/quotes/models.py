@@ -58,6 +58,7 @@ class Quote(TimeStampedModel):
         blank=True, null=True)
 
     class Meta:
+        # reverse chron
         get_latest_by = "datetime"
         ordering = ('-datetime',)
 
@@ -68,12 +69,17 @@ class Quote(TimeStampedModel):
 class Storyline(TimeStampedModel):
     """
     A storyline is our core editorial model. 
+    
     It frames and (minimally) explains a story, which is illustrated
     through quotes.
 
     The point is to show: Here's what people in power are saying about this thing.
 
-    A user can create a storyline and add quotes, with ordering.
+    A user can create a storyline and add quotes, with ordering 
+    (defaults to reverse chron).
+
+    A storyline can be saved in draft, shared privately (like private gists)
+    or made public.
     """
     STATUS = Choices(
         ('draft', 'Draft'), # not visibile
@@ -92,13 +98,18 @@ class Storyline(TimeStampedModel):
 
     quotes = models.ManyToManyField(Quote,
         related_name='storylines',
-        through='StorylineQuote')
+        through='StorylineQuote',
+        blank=True, null=True) # so we can save before adding quotes
 
-    # todo topics
+    # topics, should be union of quote topics
+    # can we do this without creating another table?
+    topics = models.ManyToManyField(Topic, related_name='storylines',
+        blank=True, null=True)
 
     # todo photos
 
     class Meta:
+        # reverse chron by default
         get_latest_by = "datetime"
         ordering = ('-datetime',)
 

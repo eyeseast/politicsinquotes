@@ -1,3 +1,6 @@
+import requests
+import yaml
+
 from django.test import TestCase
 
 from .models import Person
@@ -38,3 +41,28 @@ class PeopleTest(TestCase):
 		mitch.display = "Sen. {first} {last}"
 
 		self.assertEqual('Sen. Mitch McConnell', mitch.get_display_name())
+
+
+class PeopleLoadingTest(TestCase):
+	"""
+	Tests for people loaders
+	"""
+	
+	def test_load_congress(self):
+		"""
+		Ensure that we're loading congress correctly
+		"""
+		from pq.apps.people import load
+
+		url = "https://raw.githubusercontent.com/unitedstates/congress-legislators/master/legislators-current.yaml"
+		req = requests.get(url)
+
+		members = yaml.load(req.content)
+
+		# do the actual loading
+		load.congress()
+
+		self.assertEqual(len(members), Person.objects.count())
+
+
+
