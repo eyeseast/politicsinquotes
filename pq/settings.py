@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import dj_database_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 f = lambda fn: os.path.join(BASE_DIR, fn)
@@ -41,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # 3rd party
+    'south',
 
     # core
     'pq.apps.people',
@@ -65,10 +68,7 @@ WSGI_APPLICATION = 'pq.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': f('dev.db'),
-    }
+    'default': dj_database_url.config(default='postgres://localhost/quotes')
 }
 
 # Internationalization

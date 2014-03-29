@@ -40,6 +40,8 @@ def freeze():
     print reqs
 
 
+# Database management
+
 def drop_database():
     "Drop database. Don't do this by accident."
     with settings(warn_only=True):
@@ -48,7 +50,27 @@ def drop_database():
 
 def create_database():
     "Create our local database."
-    #local('createdb -T template_postgis %(db_name)s' % env)
     local('createdb %(db_name)s' % env)
     local('psql -c "CREATE EXTENSION hstore" -d %(db_name)s' % env)
 
+
+def reset():
+    "Drop and recreate the local database."
+    rm_pyc()
+    drop_database()
+    create_database()
+    migrate()
+
+
+def migrate():
+    "Run manage.py syncdb and manage.py migrate"
+    manage('syncdb --noinput')
+    manage('migrate')
+
+
+def manage(cmd):
+    """
+    Run a Django management command in this VE.
+    Useful in other fab commands.
+    """
+    local('%s %s' % (env.manage, cmd))
