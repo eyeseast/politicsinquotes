@@ -1,6 +1,8 @@
 """
 Various loader scripts for people.
 """
+import logging
+
 import requests
 import yaml
 
@@ -15,6 +17,9 @@ GENDER_MAP = {
     'male': 'male',
 }
 
+log = logging.getLogger(__name__)
+
+
 def congress(public=True):
     """
     Load current members of Congress using theunitedstates.io/congress-legislators
@@ -26,8 +31,8 @@ def congress(public=True):
 
     Everything is in yaml.
 
-    Uniqueness is based on name fields, for now. Bioguide is a better ID, 
-    but it's only for past and present members of Congress.
+    Uniqueness is based on Person.links['bioguide']
+    This only applies to current and former members of congress.
     """
     url = "https://raw.githubusercontent.com/unitedstates/congress-legislators/master/legislators-current.yaml"
     req = requests.get(url)
@@ -39,9 +44,19 @@ def congress(public=True):
         # mise en place
         name = dict((k, v) for k, v in member['name'].items() if k in Person.NAME_FIELDS)
         term = member['terms'][-1] # most recent term
+        ids = member['id']
         
         # get or create a person, based on name fields
-        person, created = Person.objects.get_or_create(**name)
+        try:
+            person = Person.objects.get(links={'bioguide': ids['bioguide']})
+            created = False
+        except Person.DoesNotExist:
+            params = name.copy()
+            params['links'] = ids
+            person = Person.objects.create(**params)
+            created = True
+
+        log_created(person, created)
 
         # update attributes
         person.public = public
@@ -52,4 +67,12 @@ def congress(public=True):
 
         person.save()
 
-        print person.name
+
+def log_created(obj, created):
+    """
+    Logs object creation.
+    """
+    if created:
+        log.debug('%s created: %s', obj.__class__.__name__, obj)
+
+    return obj, created

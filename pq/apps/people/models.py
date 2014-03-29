@@ -52,7 +52,7 @@ class Person(TimeStampedModel):
 
     # links
     links = hstore.DictionaryField(blank=True, null=True,
-        help_text="Links to external resources and IDs, ex: bioguide_id")
+        help_text="Links to external resources and IDs, ex: bioguide")
 
     objects = PersonManager()
 

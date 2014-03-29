@@ -56,7 +56,7 @@ def drop_database():
 def create_database():
     "Create our local database."
     local('createdb %(NAME)s' % env.db)
-    local('psql -c "CREATE EXTENSION hstore" -d %(NAME)s' % env.db)
+    local('psql -c "CREATE EXTENSION IF NOT EXISTS hstore" -d %(NAME)s' % env.db)
 
 
 def reset():
