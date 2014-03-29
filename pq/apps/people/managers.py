@@ -1,9 +1,10 @@
 from django.db.models.query import QuerySet
+from django_hstore.query import HStoreQuerySet
 from model_utils.managers import PassThroughManager
 from nameparser import HumanName
 
 
-class PersonQuerySet(QuerySet):
+class PersonQuerySet(HStoreQuerySet):
 
     def public(self):
         return self.filter(public=True)

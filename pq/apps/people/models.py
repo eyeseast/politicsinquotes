@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 
+from django_hstore import hstore
 from model_utils import Choices
 from model_utils.models import TimeStampedModel
 from nameparser import HumanName
@@ -46,8 +47,12 @@ class Person(TimeStampedModel):
 
     # metadata
     gender = models.CharField(max_length=10, blank=True, choices=GENDERS)
-    party = models.CharField(max_length=10, blank=True, choices=PARTIES)
+    party = models.CharField(max_length=50, blank=True, choices=PARTIES)
     bio = models.TextField(blank=True)
+
+    # links
+    links = hstore.DictionaryField(blank=True, null=True,
+        help_text="Links to external resources and IDs, ex: bioguide_id")
 
     objects = PersonManager()
 

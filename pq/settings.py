@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     # 3rd party
+    'django_hstore',
     'south',
 
     # core
@@ -70,6 +71,8 @@ WSGI_APPLICATION = 'pq.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(default='postgres://localhost/quotes')
 }
+
+SOUTH_DATABASE_ADAPTERS = {'default': 'south.db.postgresql_psycopg2'}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
