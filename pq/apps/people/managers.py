@@ -1,6 +1,7 @@
 from django.db.models.query import QuerySet
+from django_hstore.hstore import HStoreManager
 from django_hstore.query import HStoreQuerySet
-from model_utils.managers import PassThroughManager
+from model_utils.managers import create_pass_through_manager_for_queryset_class
 from nameparser import HumanName
 
 
@@ -24,4 +25,4 @@ class PersonQuerySet(HStoreQuerySet):
         return super(PersonQuerySet, self).filter(*args, **kwargs)
 
 
-PersonManager = PassThroughManager.for_queryset_class(PersonQuerySet)
+PersonManager = create_pass_through_manager_for_queryset_class(HStoreManager, PersonQuerySet)

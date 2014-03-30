@@ -48,7 +48,7 @@ def congress(public=True):
         
         # get or create a person, based on name fields
         try:
-            person = Person.objects.get(links={'bioguide': ids['bioguide']})
+            person = Person.objects.get(links__contains={'bioguide': ids['bioguide']})
             created = False
         except Person.DoesNotExist:
             params = name.copy()
