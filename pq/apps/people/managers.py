@@ -20,7 +20,8 @@ class PersonQuerySet(HStoreQuerySet):
             name = kwargs.pop('name')
             name = HumanName(name)
             for field in Person.NAME_FIELDS:
-                kwargs[field] = getattr(name, field)
+                if getattr(name, field):
+                    kwargs[field] = getattr(name, field)
 
         return super(PersonQuerySet, self).filter(*args, **kwargs)
 

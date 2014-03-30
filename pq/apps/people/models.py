@@ -63,7 +63,7 @@ class Person(TimeStampedModel):
         verbose_name_plural = "people"
 
     def __unicode__(self):
-        return self.name
+        return self.get_display_name()
 
     # name parsing
     def _get_name(self):
