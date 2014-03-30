@@ -6,6 +6,7 @@ from fabric.api import *
 # names
 env.default_db_name = "quotes"
 env.project_name = "pq"
+env.settings_module = os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pq.settings')
 
 # one db configuration everywhere from DATABASE_URL
 env.db = dj_database_url.config(default='postgres://localhost/%s' % env.default_db_name)
@@ -79,3 +80,12 @@ def manage(cmd):
     Useful in other fab commands.
     """
     local('%s %s' % (env.manage, cmd))
+
+
+def load_congress():
+    """
+    Load current members of Congress
+    """
+    from pq.apps.people import load
+    load.congress()
+
