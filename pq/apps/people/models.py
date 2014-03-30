@@ -54,6 +54,8 @@ class Person(TimeStampedModel):
     links = hstore.DictionaryField(blank=True, null=True,
         help_text="Links to external resources and IDs, ex: bioguide")
 
+    # todo images
+
     objects = PersonManager()
 
     class Meta:

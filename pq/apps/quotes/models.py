@@ -8,6 +8,7 @@ from model_utils.models import TimeStampedModel
 
 from pq.apps.people.models import Person
 
+
 class Topic(TimeStampedModel):
     """
     A topic, tied to quotes and storylines
@@ -38,17 +39,29 @@ class Quote(TimeStampedModel):
     Quotes can be sorted chronologically, and organized
     by topic and speaker.
 
-    Every quote must have a source URL. Nothing should appear
-    here first.
+    Every quote must have a source URL. 
+    Nothing should appear here first.
     """
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL, 
         related_name='quotes')
 
+    datetime = models.DateTimeField(default=datetime.datetime.now)
+
     speaker = models.ForeignKey(Person, related_name='quotes')
-    datetime = models.DateTimeField()
+
+    mentions = models.ManyToManyField(Person,
+        related_name='mentions',
+        blank=True, null=True,
+        help_text="Who is this quote about (excluding the speaker)?")
+
+    tease = models.TextField(blank=True,
+        help_text="Optional: Short version. Think 140 characters.")
 
     text = models.TextField(
         help_text="The quote itself, with no attribution or surrounding quote marks.")
+
+    context = models.TextField(blank=True,
+        help_text="Optional: A few words about this quote, if needed.")
 
     source_url = models.URLField()
     source_title = models.CharField(max_length=500, blank=True)
