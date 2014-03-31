@@ -41,6 +41,14 @@ class Quote(TimeStampedModel):
 
     Every quote must have a source URL. 
     Nothing should appear here first.
+
+    Required fields:
+     - added_by
+     - datetime
+     - speaker
+     - text
+     - source_url
+    
     """
     added_by = models.ForeignKey(settings.AUTH_USER_MODEL, 
         related_name='quotes')
