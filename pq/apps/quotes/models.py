@@ -55,7 +55,8 @@ class Quote(TimeStampedModel):
 
     datetime = models.DateTimeField(default=datetime.datetime.now)
 
-    speaker = models.ForeignKey(Person, related_name='quotes')
+    speaker = models.ForeignKey(Person, related_name='quotes',
+        blank=True, null=True)
 
     mentions = models.ManyToManyField(Person,
         related_name='mentions',
