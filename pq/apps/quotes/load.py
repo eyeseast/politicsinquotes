@@ -24,7 +24,7 @@ tumblr = TumblrRestClient(TUMBLR_API_KEY)
 
 log = logging.getLogger(__name__)
 
-def tumblr_ingest(blog, **kwargs):
+def tumblr_ingest(blog=TUMBLR_BLOG, **kwargs):
     """
     Load quotes from tumblr blog. See fields available here:
         https://www.tumblr.com/docs/en/api/v2#quote-posts
@@ -62,7 +62,7 @@ def tumblr_ingest(blog, **kwargs):
 
 def get_default_user():
     User = get_user_model()
-    return User.objects.all()[0]
+    return User.objects.get(username=settings.DEFAULT_USER)
 
 
 def get_speaker(quote):

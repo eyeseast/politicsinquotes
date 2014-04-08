@@ -87,5 +87,15 @@ def load_congress():
     Load current members of Congress
     """
     from pq.apps.people import load
+    
     load.congress()
+
+
+def load_tumblr():
+    """
+    Load quotes from Tumblr.
+    """
+    from pq.apps.quotes.load import tumblr_ingest
+
+    tumblr_ingest()
 

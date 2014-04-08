@@ -98,5 +98,6 @@ CALAIS_API_KEY = os.environ.get('CALAIS_API_KEY')
 TUMBLR_API_KEY = os.environ.get('TUMBLR_API_KEY')
 TUMBLR_BLOG = "politicsinquotes"
 
-
+# pq
+DEFAULT_USER = "chrisamico"
 
