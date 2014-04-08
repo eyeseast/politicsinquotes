@@ -93,6 +93,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_ROOT = f('uploads')
+
 # API keys
 CALAIS_API_KEY = os.environ.get('CALAIS_API_KEY')
 TUMBLR_API_KEY = os.environ.get('TUMBLR_API_KEY')

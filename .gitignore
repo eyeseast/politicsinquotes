@@ -51,6 +51,8 @@ coverage.xml
 *.db
 *.sqlite
 
+uploads/*
+
 # Sphinx documentation
 docs/_build/
 
