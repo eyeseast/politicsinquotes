@@ -10,6 +10,7 @@ from pytumblr import TumblrRestClient
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.utils.timezone import utc
 
 from pq.apps.people.models import Person
 from .models import Topic, Quote
@@ -37,7 +38,7 @@ def tumblr_ingest(blog, **kwargs):
 
     for post in quotes['posts']:
         defaults = {
-            'datetime': datetime.datetime.fromtimestamp(post['timestamp']),
+            'datetime': datetime.datetime.utcfromtimestamp(post['timestamp']).replace(tzinfo=utc),
             'added_by': default_user,
             'context': post['source'],
             'source_url': post['source_url'],
