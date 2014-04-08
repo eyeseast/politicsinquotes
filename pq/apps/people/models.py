@@ -125,7 +125,7 @@ class Person(TimeStampedModel):
     # name parsing
     def _get_name(self):
         "Join name parts into one string"
-        parts = [getattr(self, f) for f in self.NAME_FIELDS]
+        parts = self.get_name_list()
         parts = filter(bool, parts)
         return u" ".join(parts)
 
@@ -150,10 +150,22 @@ class Person(TimeStampedModel):
         Either name or interpolated display. Allows nickname too.
         """
         if self.display:
-            parts = dict((f, getattr(self, f)) for f in self.NAME_FIELDS + ('nickname',))
+            parts = self.get_name_dict()
             return self.display.format(**parts)
 
         return self.name
+
+    def get_name_dict(self):
+        """
+        Get name fields only, as a dict (includes nickname)
+        """
+        return dict((f, getattr(self, f)) for f in self.NAME_FIELDS + ('nickname',))
+
+    def get_name_list(self):
+        """
+        Get name fields only, as a list (excludes nickname)
+        """
+        return [getattr(self, f) for f in self.NAME_FIELDS]
 
     def get_thumbnail(self):
         pass
