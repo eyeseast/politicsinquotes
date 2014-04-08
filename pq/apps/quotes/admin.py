@@ -1,3 +1,15 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Topic, Quote, Storyline, StorylineQuote
+
+class TopicAdmin(admin.ModelAdmin):
+	prepopulated_fields = {'slug': ('name',)}
+
+
+class QuoteAdmin(admin.ModelAdmin):
+
+	list_display = ('speaker', 'text', 'source_title', 'datetime', 'added_by')
+
+
+admin.site.register(Quote, QuoteAdmin)
+admin.site.register(Storyline)

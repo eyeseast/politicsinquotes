@@ -85,7 +85,10 @@ class Quote(TimeStampedModel):
         ordering = ('-datetime',)
 
     def __unicode__(self):
-        return u"{0}: {1}".format(self.speaker.name, self.text)
+        if self.speaker:
+            return u"{0}: {1}".format(self.speaker.name, self.text)
+        else:
+            return self.text
 
 
 class Storyline(TimeStampedModel):
